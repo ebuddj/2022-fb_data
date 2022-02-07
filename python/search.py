@@ -34,6 +34,10 @@
 import pandas as pd
 import pandas.io.common
 from dotenv import load_dotenv
+import os
+load_dotenv()
+
+FILENAME = os.getenv('FILENAME')
 
 # Load sys for reading arguments
 import sys
@@ -48,7 +52,6 @@ if len(sys.argv) > 0:
 
     # Import libraries.
     import csv
-    import os
     import re
 
     # Create the csv writer.
@@ -64,9 +67,10 @@ if len(sys.argv) > 0:
       df_existing = pd.read_csv('./result.csv')
       if (len(df_existing[df_existing['search_terms'].str.contains(', '.join(words), flags=re.IGNORECASE, regex=True, na=False)])) == 0:
         df = pd.read_csv('../data/' + FILENAME)
-        base = r'^{}'
-        expr = '(?=.*{})'
+        base = r'{}'
+        expr = '(?=.*{}.*)'
         search_term_regexp = base.format(''.join(expr.format(w) for w in words))
+        print(search_term_regexp)
         result = df['raw_text'].str.contains(search_term_regexp, flags=re.IGNORECASE, regex=True, na=False)
         print('\033[1mDocuments count: \033[0m' + str(len(df[result])))
 
