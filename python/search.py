@@ -6,7 +6,7 @@
 # ABOUT
 #######
 
-# News Pilot
+# Make keyword searches from .csv-file
 
 ########
 # AUTHOR
@@ -70,7 +70,7 @@ if len(sys.argv) > 0:
         base = r'{}'
         expr = '(?=.*{}.*)'
         search_term_regexp = base.format(''.join(expr.format(w) for w in words))
-        print(search_term_regexp)
+        # print(search_term_regexp)
         result = df['raw_text'].str.contains(search_term_regexp, flags=re.IGNORECASE, regex=True, na=False)
         print('\033[1mDocuments count: \033[0m' + str(len(df[result])))
 
@@ -79,7 +79,7 @@ if len(sys.argv) > 0:
       else:
         print('\033[1mAlready included!\033[0m')
     except pd.errors.EmptyDataError:
-      print('\033[1mCreated the file, run again!\033[0m')
+      print('\033[1mOnly initialized the output file, run the script again!\033[0m')
 
 else:
   print('\033[1mEnter at least one search term!\033[0m')
